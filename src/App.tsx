@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.tsx
+import { useAppSelector } from "./hooks";
+import { selectCounts } from "./todos/selectors";
+import AddTodo from "./components/AddTodo";
+import TodoList from "./components/TodoList";
+import AddTag from "./components/AddTag";
+import TagList from "./components/TagList";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const counts = useAppSelector(selectCounts);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+    <div className="container">
+      <header>
+        <h1>Redux Todos + Tags</h1>
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          Total: <strong>{counts.total}</strong> | Open:{" "}
+          <strong>{counts.open}</strong> | Completed:{" "}
+          <strong>{counts.completed}</strong>
         </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      </header>
 
-export default App
+      <section className="grid">
+        <div className="card">
+          <h2>Add Todo</h2>
+          <AddTodo />
+          <h2 style={{ marginTop: 16 }}>Todos</h2>
+          <TodoList />
+        </div>
+
+        <div className="card">
+          <h2>Tags</h2>
+          <AddTag />
+          <TagList />
+        </div>
+      </section>
+
+      <footer>
+        <small>React + Redux Toolkit • Vite • TypeScript</small>
+      </footer>
+    </div>
+  );
+}
